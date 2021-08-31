@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+.table {
+	margin: 0 auto;
+	width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.table th {
+	background-color: rgb(58, 135, 207);
+	padding: 20px;
+	color: white;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.table .table__item {
+	background-color: #f2f2f2;
+	text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.table .table__item-cell {
+	padding: 10px 15px;
+	width: 40%;
 }
 
-.App-link {
-  color: #61dafb;
+.table .table__action-button {
+	margin: 5px 5px;
+	padding: 10px 20px;
+	border-width: 0;
+	color: white;
+	border-radius: 4px;
+}
+.table .table__action-button:hover {
+	cursor: pointer;
+	filter: brightness(0.9);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.table .table__action-button--view {
+	background-color: #eaef41;
+}
+
+.table .table__action-button--update {
+	background-color: #179537;
+}
+
+.table .table__action-button--delete {
+	background-color: #b62911;
+}
+
+.table .table__action-button--cancel {
+	background-color: #c7c2c2;
 }
