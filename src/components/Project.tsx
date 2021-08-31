@@ -27,7 +27,7 @@ export interface ProjectProps extends RouteComponentProps {
 	times?: ProjectTimeProps[];
 }
 
-export const ProjectItem = withRouter(({ match, location, history, ...props }: ProjectProps) => {
+export const Project = withRouter(({ match, location, history, ...props }: ProjectProps) => {
 	const [name, setName] = React.useState(props.name);
 	const [description, setDescription] = React.useState(props.description);
 	const [isUpdating, setIsUpdating] = React.useState(false);

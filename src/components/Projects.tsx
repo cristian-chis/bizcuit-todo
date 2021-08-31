@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { ProjectItem, ProjectProps } from './Project';
+import { Project, ProjectProps } from './Project';
 
 export const GET_PROJECTS = gql`
 	{
@@ -28,7 +28,7 @@ export function Projects() {
 				</tr>
 			</thead>
 			<tbody>
-				{data.projects.map((project: ProjectProps) => <ProjectItem key={project.id} id={project.id} name={project.name} description={project.description} /> )}
+				{data.projects.map((project: ProjectProps) => <Project key={project.id} id={project.id} name={project.name} description={project.description} /> )}
 			</tbody>
 		</table>
 		
