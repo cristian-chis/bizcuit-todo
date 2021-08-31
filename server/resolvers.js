@@ -1,5 +1,6 @@
-import { ApolloServer, gql } from 'apollo-server';
-import { v4 as uuidv4 } from 'uuid';
+const { gql } = require('apollo-server');
+const { v4: uuidv4 } = require('uuid');
+let { projects } = require('./db');
 
 const typeDefs = gql`
 	type Project {
@@ -20,19 +21,17 @@ const typeDefs = gql`
 	}
 
 	type Mutation {
-		createProject (name: String!, description: String!): Project!
+		createProject (name: String!, description: String!) : Project!
+		deleteProject (id: ID!) : Boolean!
 	}
 `;
-
-const projects: any = [];
 
 const resolvers = {
 	Query: {
 		projects: () => projects
 	},
 	Mutation: {
-		createProject: (root: any, args: any, context: any) => {
-			const { name, description } = args;
+		createProject: (root, { name, description }, context) => {
 			const uuid = uuidv4();
 			const project = {
 				id: uuid,
@@ -41,12 +40,12 @@ const resolvers = {
 			};
 			projects.push(project);
 			return project;
+		},
+		deleteProject: (root, { id }, context) => {
+			projects = projects.filter((project) => project.id != id);
+			return true;
 		}
 	}
 }
 
-const server = new ApolloServer({ typeDefs, resolvers });
-
-server.listen().then(({ url }) => {
-	console.log(`Server started at: ${url}`);
-});
+module.exports = { typeDefs, resolvers };
