@@ -17,8 +17,10 @@ interface ProjectTimeCreateFormProps {
 }
 
 export function ProjectTimeCreateForm({ projectId }: ProjectTimeCreateFormProps) {
-	const [description, setDescription] = React.useState('');
-	const [amount, setAmount] = React.useState('');
+	const descriptionInputRef = React.createRef<HTMLTextAreaElement>();
+	const amountInputRef = React.createRef<HTMLInputElement>();
+
+	const [isErrored, setIsErrored] = React.useState(false);
 	
 	const [addProjectTime, { loading, error }] = useMutation(CREATE_PROJECT_TIME, {
 		refetchQueries: [{ query: GET_PROJECT, variables: { id: projectId } }]
@@ -28,16 +30,33 @@ export function ProjectTimeCreateForm({ projectId }: ProjectTimeCreateFormProps)
 
 	const handleSubmit: React.FormEventHandler = (event) => {
 		event.preventDefault();
-		addProjectTime({ variables: { projectId, description, amount: +amount } });
-		setDescription('');
-		setAmount('');
+
+		// optional chaining not compiling (using caveman JS)
+		const descriptionInputValue = descriptionInputRef.current && descriptionInputRef.current.value
+			? descriptionInputRef.current.value
+			: null
+		const amountInputValue = amountInputRef.current && amountInputRef.current.value
+			? +amountInputRef.current.value
+			: -1
+
+		if (descriptionInputValue && amountInputValue >= 0) {
+			addProjectTime({ variables: { projectId, description: descriptionInputValue, amount: amountInputValue } });
+			setIsErrored(false);
+		} else {
+			setIsErrored(true);
+		}
 	}
 
 	return (
-		<form onSubmit={handleSubmit} style={{ width: '50%', margin: '0 auto', display: 'flex', flexDirection: 'column'}}>
-			<textarea placeholder="Time description" value={description} onChange={(event) => setDescription(event.target.value)} required />
-			<input type="number" placeholder="Time amount" value={amount} onChange={(event) => setAmount(event.target.value)} required />
-			<button disabled={loading} style={{ padding: '10px', backgroundColor: '#4839ac', color: 'white', fontSize: '18px' }}>Add time</button>
-		</form>
+		<>
+			{isErrored &&
+				<p className="error">One or more fields could not be validated. Make sure you set a description and did not use a negative value for the amount.</p>
+			}
+			<form onSubmit={handleSubmit} style={{ width: '50%', margin: '0 auto', display: 'flex', flexDirection: 'column'}}>
+				<textarea ref={descriptionInputRef} placeholder="Time description" required />
+				<input ref={amountInputRef} type="number" placeholder="Time amount" required />
+				<button disabled={loading} style={{ padding: '10px', backgroundColor: '#4839ac', color: 'white', fontSize: '18px' }}>Add time</button>
+			</form>
+		</>
 	)
 }
