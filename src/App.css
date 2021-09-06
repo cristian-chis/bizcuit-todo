@@ -47,3 +47,8 @@
 .table .table__action-button--cancel {
 	background-color: #c7c2c2;
 }
+
+.error {
+	color: #b62911;
+	text-align: center;
+}
