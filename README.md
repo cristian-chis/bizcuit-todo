@@ -1,4 +1,4 @@
-# Bizcuit ToDo
+# Bizcuit ToDo [CLIENT]
 
 This project has been made for an interview at Bizcuit.
 
@@ -12,5 +12,4 @@ The user can add projects, view or edit. It is only able to view the time data f
 
 - clone repository
 - run `npm install`
-- run `react-scripts start` to start the client
-- run `node ./server/index.js` to start the server
+- run `npm start` to start the client
